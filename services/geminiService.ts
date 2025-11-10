@@ -2,11 +2,15 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { LearningMechanism, GeneratedContent } from '../types';
 
-if (!process.env.API_KEY) {
-    throw new Error("API_KEY environment variable not set");
+// Fix: Adhering to the coding guidelines to use process.env.API_KEY, which also resolves the 'import.meta.env' TypeScript error.
+const apiKey = process.env.API_KEY;
+
+if (!apiKey) {
+    // This provides a clear error message during development if the variable is missing.
+    throw new Error("API_KEY environment variable not set. Please ensure it is configured.");
 }
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey });
 
 const responseSchema = {
     type: Type.OBJECT,
